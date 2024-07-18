@@ -28,13 +28,17 @@ install.packages("withcon")
 ```
 
 ## Usage
+
 #### Basic Example
-```{r, eval=FALSE}
+
+```{r}
 library(withcon)
 library(DBI)
 library(duckdb)
+```
 
-result <- with_con(list(duckdb::duckdb()), {
+```{r, eval=TRUE}
+result <- with_con(duckdb::duckdb(), {
   dbExecute(con, "CREATE TABLE test (x INTEGER)")
   dbExecute(con, "INSERT INTO test VALUES (1), (2), (3)")
   dbReadTable(con, "test")
@@ -45,11 +49,8 @@ print(result)
 ```
 
 The above example is equivalent to:
-```{r, eval=FALSE}
-library(withcon)
-library(DBI)
-library(duckdb)
 
+```{r}
 con <- dbConnect(duckdb::duckdb())
 
 dbExecute(con, "CREATE TABLE test (x INTEGER)")
@@ -64,7 +65,7 @@ print(result)
 
 
 #### Parallel Processing with furrr
-```{r, eval=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(furrr)
 library(DBI)
 library(duckdb)
@@ -73,7 +74,7 @@ library(withcon)
 future::plan(future::multisession, workers = 2)
 
 parallel_function <- function(i) {
-  with_con(list(duckdb::duckdb()), {
+  with_con(duckdb::duckdb(), {
     dbExecute(con, "CREATE TABLE test (x INTEGER)")
     dbExecute(con, "INSERT INTO test VALUES (1), (2), (3)")
     dbReadTable(con, "test")
