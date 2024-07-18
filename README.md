@@ -1,26 +1,14 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-options(tibble.print_min = 5, tibble.print_max = 5)
-```
-
 # withcon
 
-`withcon` simplifies managing DBI connections in R, ensuring connections are properly opened and closed within a code block.
+`withcon` simplifies managing DBI connections in R, ensuring connections
+are properly opened and closed within a code block.
 
 ## Installation
 
-```{r eval=FALSE}
+``` r
 install.packages("withcon")
 
 # Install withcon from GitHub
@@ -28,8 +16,10 @@ install.packages("withcon")
 ```
 
 ## Usage
+
 #### Basic Example
-```{r, eval=FALSE}
+
+``` r
 library(withcon)
 library(DBI)
 library(duckdb)
@@ -41,11 +31,11 @@ result <- with_con(list(duckdb::duckdb()), {
 })
 
 print(result)
-
 ```
 
 The above example is equivalent to:
-```{r, eval=FALSE}
+
+``` r
 library(withcon)
 library(DBI)
 library(duckdb)
@@ -59,12 +49,11 @@ dbReadTable(con, "test")
 dbDisconnect(con)
 
 print(result)
-
 ```
 
-
 #### Parallel Processing with furrr
-```{r, eval=FALSE}
+
+``` r
 library(furrr)
 library(DBI)
 library(duckdb)
@@ -82,3 +71,4 @@ parallel_function <- function(i) {
 
 results <- furrr::future_map(1:4, parallel_function)
 print(results)
+```

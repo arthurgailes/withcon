@@ -4,31 +4,32 @@
 #' passes the connection to the provided code block, and ensures the connection is closed
 #' after the code block is executed.
 #'
-#' @param db_spec A list containing the database connection specifications.
+#' @param driver A DBI driver object, e.g., `duckdb::duckdb()`.
+#' @param ... Named arguments to be passed to `dbConnect` along with the driver.
 #' @param code_block A code block to be executed with the created connection.
 #'
 #' @return The result of the evaluated code block.
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' library(duckdb)
-#' result <- with_con(list(duckdb::duckdb(), "my_database.duckdb"), {
-#'   dbReadTable(con, "table")
-#' })
-#' print(result)
+#' if (requireNamespace("duckdb", quietly = TRUE)) {
+#'   library(DBI)
+#'   result <- with_con(duckdb::duckdb(), dbname = ":memory:", {
+#'     dbWriteTable(con, "mtcars", mtcars)
+#'     dbReadTable(con, "mtcars")
+#'   })
+#'   print(result)
 #' }
-
-with_con <- function(db_spec, code_block) {
+with_con <- function(driver, code_block, ...) {
   # Create the connection
-  con <- do.call(DBI::dbConnect, db_spec)
-  
+  con <- DBI::dbConnect(driver, ...)
+
   # Ensure the connection is disconnected at the end
   on.exit(DBI::dbDisconnect(con))
-  
+
   # Evaluate the code block with the connection
   result <- eval(substitute(code_block), envir = list(con = con))
-  
+
   # Return the result
   return(result)
 }
