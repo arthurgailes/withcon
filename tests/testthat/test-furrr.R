@@ -18,7 +18,6 @@ test_that("with_con works in parallel with furrr", {
     }
   )
 
-
   # Run the function in parallel using future_map
   opts <- furrr::furrr_options(globals = FALSE)
   results <- furrr::future_map(1:4, parallel_function, .options = opts)

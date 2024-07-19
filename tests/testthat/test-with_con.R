@@ -19,7 +19,7 @@ test_that("with_con disconnects after use", {
   conn <- NULL
   expect_error(
     conn <- with_con(duckdb::duckdb(), {
-      con  # This will ensure `con` is assigned to `conn`
+      con
     }), NA
   )
   expect_false(is.null(conn))

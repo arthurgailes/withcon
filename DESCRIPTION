@@ -1,11 +1,12 @@
 Package: withcon
-Title: withcon
+Title: Execute within temporary connections in R
 Version: 0.1.0
 Authors@R: 
     person("Arthur", "Gailes", , "agailes1@gmail.com", 
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0006-8176-8653"))
-Description: Execute arbitrary code using a temporary DBI connection.
+Description: A simple wrapper for executing R code within temporary DBI 
+  connections.
 URL: https://github.com/arthurgailes/withcon
 License: MIT + file LICENSE
 Encoding: UTF-8
